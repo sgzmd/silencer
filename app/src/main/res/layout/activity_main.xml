@@ -39,7 +39,64 @@
         android:id="@+id/silence_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Silence"/>
+        android:text="@string/silence_button"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or"
+        android:id="@+id/textView"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/silence_15_min"
+            android:text="@string/min_15"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/silence_30_min"
+            android:text="@string/min_30"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/silence_60_min"
+            android:text="@string/min_60"/>
+
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vibro_mode"
+            android:id="@+id/radio_vibro"
+            android:checked="true"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/silent_mode"
+            android:id="@+id/radio_full_silent"
+            />
+
+
+    </RadioGroup>
+
 
 
 </LinearLayout>

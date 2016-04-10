@@ -3,4 +3,11 @@
     <string name="app_name">Silencer</string>
     <string name="silence_for_text">Выключить звук на %s</string>
     <string name="toast_text">Звук будет выключен на %s</string>
+    <string name="or">... или выключить на ...</string>
+    <string name="silence_button">Выключить</string>
+    <string name="min_15">15 минут</string>
+    <string name="min_30">30 минут</string>
+    <string name="min_60">1 час</string>
+    <string name="vibro_mode">Режим вибрации</string>
+    <string name="silent_mode">Не беспокоить</string>
 </resources>

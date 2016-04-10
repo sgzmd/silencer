@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int silencePeriod = 10;
 
     private final int FIVE_MINUTES = 5 * 60;
+    private RadioButton radioVibration;
+    private RadioButton radioSilent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +35,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         seekBar.setOnSeekBarChangeListener(this);
         this.silenceFor = ((TextView) this.findViewById(R.id.silence_for_value));
 
+        this.findViewById(R.id.silence_15_min).setOnClickListener(this);
+        this.findViewById(R.id.silence_30_min).setOnClickListener(this);
+        this.findViewById(R.id.silence_60_min).setOnClickListener(this);
+
+        this.radioVibration = (RadioButton) this.findViewById(R.id.radio_vibro);
+        this.radioSilent = (RadioButton) this.findViewById(R.id.radio_full_silent);
+
+        this.radioVibration.setChecked(true);
+
+
         seekBar.setProgress(1);
         redrawText();
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.silence_btn) {
-            AudioManager audio = (AudioManager) this.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-            audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-
-            AlarmManager am = (AlarmManager) this.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this.getApplicationContext(), Alarm.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
-            am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + FIVE_MINUTES * silencePeriod * 1000 + 3000, pendingIntent);
-            Toast.makeText(view.getContext(), String.format(getString(R.string.toast_text), makeSilenceForText()), Toast.LENGTH_LONG).show();
+        switch (view.getId()) {
+            case R.id.silence_btn: {
+                break;
+            }
+            case R.id.silence_15_min: {
+                silencePeriod = 3;
+                break;
+            }
+            case R.id.silence_30_min: {
+                silencePeriod = 6;
+                break;
+            }
+            case R.id.silence_60_min: {
+                silencePeriod = 12;
+                break;
+            }
         }
+
+        this.seekBar.setProgress(silencePeriod);
+        redrawText();
+        silenceFor(view, silencePeriod);
+    }
+
+    private void silenceFor(View view, int period) {
+        AudioManager audio = (AudioManager) this
+                .getApplicationContext()
+                .getSystemService(Context.AUDIO_SERVICE);
+
+        audio.setRingerMode(this.radioVibration.isChecked()
+                ? AudioManager.RINGER_MODE_VIBRATE : AudioManager.RINGER_MODE_SILENT);
+
+        AlarmManager am = (AlarmManager) this
+                .getApplicationContext()
+                .getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(this.getApplicationContext(), Alarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this.getApplicationContext(), 0, intent, 0);
+        am.setExact(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + FIVE_MINUTES * period * 1000 + 3000,
+                pendingIntent);
+
+        Toast.makeText(
+                view.getContext(),
+                String.format(getString(R.string.toast_text), makeSilenceForText()),
+                Toast.LENGTH_LONG).show();
     }
 
     private void redrawText() {

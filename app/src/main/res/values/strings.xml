@@ -2,4 +2,12 @@
     <string name="app_name">Silencer</string>
     <string name="toast_text">Alerts will be silenced for %s</string>
     <string name="silence_for_text">Silence alerts for %s</string>
+    <string name="silence_button">Silence</string>
+    <string name="or">... or silence for...</string>
+    <string name="min_15">15 minutes</string>
+    <string name="min_30">30 minutes</string>
+    <string name="min_60">1 hour</string>
+    <string name="vibro_mode">Vibrate</string>
+    <string name="silent_mode">Do not disturb</string>
+
 </resources>

@@ -8,8 +8,8 @@ android {
         applicationId "info.romankirillov.silencer"
         minSdkVersion 22
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2a"
     }
     buildTypes {
         release {
