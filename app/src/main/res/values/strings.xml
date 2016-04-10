@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Silencer</string>
+    <string name="toast_text">Alerts will be silenced for %s</string>
+    <string name="silence_for_text">Silence alerts for %s</string>
+</resources>

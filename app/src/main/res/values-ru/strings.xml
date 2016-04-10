@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Silencer</string>
+    <string name="silence_for_text">Выключить звук на %s</string>
+    <string name="toast_text">Звук будет выключен на %s</string>
+</resources>
