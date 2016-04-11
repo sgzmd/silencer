@@ -5,17 +5,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends AppCompatActivity
+        implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
     private SeekBar seekBar;
     private TextView silenceFor;
@@ -42,7 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.radioVibration = (RadioButton) this.findViewById(R.id.radio_vibro);
         this.radioSilent = (RadioButton) this.findViewById(R.id.radio_full_silent);
 
-        this.radioVibration.setChecked(true);
+        boolean isDnd = getPreferences(Context.MODE_PRIVATE).getBoolean(
+                getString(R.string.silence_mode_dnd), false);
+
+        this.radioVibration.setChecked(!isDnd);
+        this.radioSilent.setChecked(isDnd);
 
 
         seekBar.setProgress(1);
@@ -122,5 +126,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    public void onCheckedChanged(View compoundButton) {
+        switch (compoundButton.getId()) {
+            case R.id.radio_vibro: {
+                getPreferences(Context.MODE_PRIVATE).edit().putBoolean(
+                        getString(R.string.silence_mode_dnd),
+                        false);
+                break;
+            }
+            case R.id.radio_full_silent: {
+                getPreferences(Context.MODE_PRIVATE).edit().putBoolean(
+                        getString(R.string.silence_mode_dnd),
+                        true);
+                break;
+
+            }
+        }
     }
 }
