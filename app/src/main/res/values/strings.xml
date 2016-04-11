@@ -9,5 +9,6 @@
     <string name="min_60">1 hour</string>
     <string name="vibro_mode">Vibrate</string>
     <string name="silent_mode">Do not disturb</string>
-
+    <string name="enable_sticky_notification">Sticky notification</string>
+    <string name="text_for_sticky_notification">Show sticky notification with controls</string>
 </resources>

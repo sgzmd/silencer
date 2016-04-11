@@ -4,18 +4,24 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
-        implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+        implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
+
+    private static final String TAG = "MainActivity";
 
     private SeekBar seekBar;
     private TextView silenceFor;
@@ -24,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private final int FIVE_MINUTES = 5 * 60;
     private RadioButton radioVibration;
     private RadioButton radioSilent;
+    private CheckBox stickyNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,10 @@ public class MainActivity extends AppCompatActivity
         this.radioVibration.setChecked(!isDnd);
         this.radioSilent.setChecked(isDnd);
 
+        this.stickyNotification = (CheckBox) this.findViewById(R.id.sticky_notification);
+        stickyNotification.setOnCheckedChangeListener(this);
+        stickyNotification.setChecked(getPreferences(Context.MODE_PRIVATE)
+                .getBoolean(getString(R.string.sticky_notification), false));
 
         seekBar.setProgress(1);
         redrawText();
@@ -128,21 +139,38 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void onCheckedChanged(View compoundButton) {
-        switch (compoundButton.getId()) {
+    public void onCheckedChanged(View view) {
+        SharedPreferences.Editor prefs = getPreferences(Context.MODE_PRIVATE).edit();
+        switch (view.getId()) {
             case R.id.radio_vibro: {
-                getPreferences(Context.MODE_PRIVATE).edit().putBoolean(
+                prefs.putBoolean(
                         getString(R.string.silence_mode_dnd),
                         false);
                 break;
             }
             case R.id.radio_full_silent: {
-                getPreferences(Context.MODE_PRIVATE).edit().putBoolean(
+                prefs.putBoolean(
                         getString(R.string.silence_mode_dnd),
                         true);
                 break;
+            }
+
+        }
+        prefs.commit();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        SharedPreferences.Editor prefs = getPreferences(Context.MODE_PRIVATE).edit();
+        switch (compoundButton.getId()) {
+            case R.id.sticky_notification: {
+                prefs.putBoolean(
+                        getString(R.string.sticky_notification),
+                        b);
+                Log.d(TAG, "Sticky checked: " + b);
 
             }
         }
+        prefs.commit();
     }
 }

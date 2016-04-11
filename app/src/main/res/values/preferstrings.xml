@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="silence_mode_dnd">silence_mode_dnd</string>
+    <string name="silence_mode_dnd">info.romankirillov.silencer.silence_mode_dnd</string>
+    <string name="sticky_notification">info.romankirillov.silencer.sticky_notification</string>
 </resources>
