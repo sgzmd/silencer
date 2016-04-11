@@ -1,12 +1,16 @@
 package info.romankirillov.silencer;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +27,7 @@ public class MainActivity extends AppCompatActivity
         implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "MainActivity";
+    public static final int NOTIFICATION_ID = 123;
 
     private SeekBar seekBar;
     private TextView silenceFor;
@@ -57,11 +63,50 @@ public class MainActivity extends AppCompatActivity
 
         this.stickyNotification = (CheckBox) this.findViewById(R.id.sticky_notification);
         stickyNotification.setOnCheckedChangeListener(this);
-        stickyNotification.setChecked(getPreferences(Context.MODE_PRIVATE)
-                .getBoolean(getString(R.string.sticky_notification), false));
+        boolean isStickyEnabled = getPreferences(Context.MODE_PRIVATE)
+                .getBoolean(getString(R.string.sticky_notification), false);
+        stickyNotification.setChecked(isStickyEnabled);
+
+        if (isStickyEnabled) {
+            createStickyNotification();
+        }
 
         seekBar.setProgress(1);
         redrawText();
+    }
+
+    private void createStickyNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.abc_ic_menu_cut_mtrl_alpha)
+//                        .setContentTitle("My notification")
+                        .setContentText("Hello World!");
+        mBuilder.setOngoing(true);
+
+        mBuilder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+
+        RemoteViews rv = new RemoteViews(getPackageName(), R.layout.notification_layout);
+        mBuilder.setContent(rv);
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Notification notification = mBuilder.build();
+        notification.contentView = rv;
+        notification.bigContentView = rv;
+        notification.headsUpContentView = rv;
+        mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     @Override
@@ -168,6 +213,14 @@ public class MainActivity extends AppCompatActivity
                         getString(R.string.sticky_notification),
                         b);
                 Log.d(TAG, "Sticky checked: " + b);
+
+                if (!b) {
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.cancel(NOTIFICATION_ID);
+                } else {
+                    createStickyNotification();
+                }
 
             }
         }
