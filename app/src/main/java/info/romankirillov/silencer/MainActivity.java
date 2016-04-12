@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -67,32 +68,82 @@ public class MainActivity extends AppCompatActivity
         stickyNotification.setChecked(isStickyEnabled);
 
         if (isStickyEnabled) {
-            createStickyNotification();
+            createNotification();
         }
 
         seekBar.setProgress(1);
         redrawText();
     }
 
-    private void createStickyNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-        builder
-                .setSmallIcon(R.drawable.notification_template_icon_bg)
-                .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_text))
-                .setOngoing(true);
+    private void createNotification() {
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
 
-        // TODO: get proper icon here
-        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_30), null);
-        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_60), null);
+        Notification notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("My Content Title")
+                .setContent(remoteViews)
+                .build();
+
+        // Also tried this
+        notification.contentView = remoteViews;
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Notification build = builder.build();
+        mNotificationManager.notify(1, notification);
+    }
+
+    private void createStickyNotification() {
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//
+//        builder
+//                .setSmallIcon(R.drawable.notification_template_icon_bg)
+////                .setContentTitle(getString(R.string.notification_title))
+//                .setContentText(getString(R.string.notification_text))
+//                .setContent(new RemoteViews(getPackageName(), R.layout.notification_layout))
+////                .setStyle(new NotificationCompat.BigTextStyle().bigText("HELLO WORLD!!!"))
+//                .setOngoing(true);
+//
+//        // TODO: get proper icon here
+//        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_30), null);
+//        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_60), null);
+
+
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+//        Notification build = builder.build();
 //        build.bigContentView = rv;
-        mNotificationManager.notify(NOTIFICATION_ID, build);
+
+
+        // Creates an explicit intent for an ResultActivity to receive.
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        // This ensures that the back button follows the recommended convention for the back key.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainActivity.class);
+
+        // Adds the Intent that starts the Activity to the top of the stack.
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_layout);
+        remoteViews.setTextViewText(R.id.text_view, "OHHHOO");
+
+        Notification notification = new Notification.Builder(this)
+                .setOngoing(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Custom")
+                .setContentIntent(resultPendingIntent)
+                .build();
+
+        notification.contentView = remoteViews;
+
+        mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     @Override
@@ -205,7 +256,7 @@ public class MainActivity extends AppCompatActivity
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.cancel(NOTIFICATION_ID);
                 } else {
-                    createStickyNotification();
+                    createNotification();
                 }
 
             }
