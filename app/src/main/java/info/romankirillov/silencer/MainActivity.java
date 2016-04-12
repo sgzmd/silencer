@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     public static final int NOTIFICATION_ID = 123;
 
     static final String SNOOZE_FOR = "info.romankirillov.silencer.snoozefor";
-    static final int SNOOZE_15 = 15;
+    static final int SNOOZE_15 = 16;
     static final int SNOOZE_30 = 30;
     static final int SNOOZE_60 = 60;
 
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Silence notifications for 30 minutes")
-                .addAction(R.mipmap.ic_launcher, "15 minutes", snooze15Intent)
+                .addAction(R.mipmap.ic_launcher, "15 minutes", snooze60Intent)
                 .addAction(R.mipmap.ic_launcher, "1 hour", snooze60Intent)
                 .setContentIntent(snooze30Intent)
                 .setStyle(new NotificationCompat.BigTextStyle()
@@ -123,58 +123,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, clazz);
         intent.putExtra(SNOOZE_FOR, requestCode);
         return intent;
-    }
-
-    private void createStickyNotification() {
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-//
-//        builder
-//                .setSmallIcon(R.drawable.notification_template_icon_bg)
-////                .setContentTitle(getString(R.string.notification_title))
-//                .setContentText(getString(R.string.notification_text))
-//                .setContent(new RemoteViews(getPackageName(), R.layout.notification_layout))
-////                .setStyle(new NotificationCompat.BigTextStyle().bigText("HELLO WORLD!!!"))
-//                .setOngoing(true);
-//
-//        // TODO: get proper icon here
-//        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_30), null);
-//        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_60), null);
-
-
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-//        Notification build = builder.build();
-//        build.bigContentView = rv;
-
-
-        // Creates an explicit intent for an ResultActivity to receive.
-        Intent resultIntent = new Intent(this, MainActivity.class);
-
-        // This ensures that the back button follows the recommended convention for the back key.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-
-        // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
-
-        // Adds the Intent that starts the Activity to the top of the stack.
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_layout);
-        remoteViews.setTextViewText(R.id.text_view, "OHHHOO");
-
-        Notification notification = new Notification.Builder(this)
-                .setOngoing(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Custom")
-                .setContentIntent(resultPendingIntent)
-                .build();
-
-        notification.contentView = remoteViews;
-
-        mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     @Override

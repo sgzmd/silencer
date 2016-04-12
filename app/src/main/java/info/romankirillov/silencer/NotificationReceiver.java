@@ -11,6 +11,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "Snooze for: " + intent.getExtras().getInt(MainActivity.SNOOZE_FOR));
+
+        Log.d(TAG, "Snooze for: " + intent.getExtras().get(MainActivity.SNOOZE_FOR));
+
+
     }
 }
