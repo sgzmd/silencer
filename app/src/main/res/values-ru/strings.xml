@@ -12,7 +12,5 @@
     <string name="silent_mode">Не беспокоить</string>
     <string name="enable_sticky_notification">Постоянное оповещение</string>
     <string name="text_for_sticky_notification">Показывать постоянную нотификацию с кнопками</string>
-    <string name="notification_title">Silencer запущен</string>
-    <string name="notification_text">На какой период вы хотите выключить звук</string>
-
+    <string name="notification_title">Выключить звук на 30 минут</string>
 </resources>

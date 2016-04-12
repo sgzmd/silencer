@@ -30,9 +30,7 @@ public class MainActivity extends AppCompatActivity
     public static final int NOTIFICATION_ID = 123;
 
     static final String SNOOZE_FOR = "info.romankirillov.silencer.snoozefor";
-    static final int SNOOZE_15 = 15;
     static final int SNOOZE_30 = 30;
-    static final int SNOOZE_60 = 60;
 
     private SeekBar seekBar;
     private TextView silenceFor;
@@ -82,34 +80,14 @@ public class MainActivity extends AppCompatActivity
 
 
     private void createNotification() {
-        PendingIntent snooze15Intent = PendingIntent.getBroadcast(
-                this.getApplicationContext(),
-                0,
-                makeSnoozeIntent(SNOOZE_15, NotificationReceiver.class),
-                0);
-
-        PendingIntent snooze30Intent = PendingIntent.getBroadcast(
-                this.getApplicationContext(),
-                0,
-                makeSnoozeIntent(SNOOZE_30, NotificationReceiver.class),
-                0);
-
-        PendingIntent snooze60Intent = PendingIntent.getBroadcast(
-                this.getApplicationContext(),
-                0,
-                makeSnoozeIntent(SNOOZE_60, NotificationReceiver.class),
-                0);
-
-
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Silence notifications for 30 minutes")
-                .addAction(R.mipmap.ic_launcher, "15 minutes", snooze15Intent)
-                .addAction(R.mipmap.ic_launcher, "1 hour", snooze60Intent)
-                .setContentIntent(snooze30Intent)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Click to silence notifications for 30 minutes " +
-                                "or choose one of the options below"))
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentIntent(PendingIntent.getBroadcast(
+                        this.getApplicationContext(),
+                        0,
+                        makeSnoozeIntent(SNOOZE_30, NotificationReceiver.class),
+                        PendingIntent.FLAG_UPDATE_CURRENT))
                 .setOngoing(true);
 
 
@@ -123,58 +101,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, clazz);
         intent.putExtra(SNOOZE_FOR, requestCode);
         return intent;
-    }
-
-    private void createStickyNotification() {
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-//
-//        builder
-//                .setSmallIcon(R.drawable.notification_template_icon_bg)
-////                .setContentTitle(getString(R.string.notification_title))
-//                .setContentText(getString(R.string.notification_text))
-//                .setContent(new RemoteViews(getPackageName(), R.layout.notification_layout))
-////                .setStyle(new NotificationCompat.BigTextStyle().bigText("HELLO WORLD!!!"))
-//                .setOngoing(true);
-//
-//        // TODO: get proper icon here
-//        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_30), null);
-//        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_60), null);
-
-
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-//        Notification build = builder.build();
-//        build.bigContentView = rv;
-
-
-        // Creates an explicit intent for an ResultActivity to receive.
-        Intent resultIntent = new Intent(this, MainActivity.class);
-
-        // This ensures that the back button follows the recommended convention for the back key.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-
-        // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
-
-        // Adds the Intent that starts the Activity to the top of the stack.
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_layout);
-        remoteViews.setTextViewText(R.id.text_view, "OHHHOO");
-
-        Notification notification = new Notification.Builder(this)
-                .setOngoing(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Custom")
-                .setContentIntent(resultPendingIntent)
-                .build();
-
-        notification.contentView = remoteViews;
-
-        mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     @Override
@@ -199,42 +125,26 @@ public class MainActivity extends AppCompatActivity
 
         this.seekBar.setProgress(silencePeriod);
         redrawText();
-        silenceFor(view, silencePeriod);
+
+        new Silencer(
+                this.getApplicationContext(),
+                getSilencePeriodSeconds(),
+                this.radioVibration.isChecked()
+                        ? AudioManager.RINGER_MODE_VIBRATE : AudioManager.RINGER_MODE_SILENT)
+                .silence();
     }
 
-    private void silenceFor(View view, int period) {
-        AudioManager audio = (AudioManager) this
-                .getApplicationContext()
-                .getSystemService(Context.AUDIO_SERVICE);
-
-        audio.setRingerMode(this.radioVibration.isChecked()
-                ? AudioManager.RINGER_MODE_VIBRATE : AudioManager.RINGER_MODE_SILENT);
-
-        AlarmManager am = (AlarmManager) this
-                .getApplicationContext()
-                .getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(this.getApplicationContext(), Alarm.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this.getApplicationContext(), 0, intent, 0);
-        am.setExact(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + FIVE_MINUTES * period * 1000 + 3000,
-                pendingIntent);
-
-        Toast.makeText(
-                view.getContext(),
-                String.format(getString(R.string.toast_text), makeSilenceForText()),
-                Toast.LENGTH_LONG).show();
+    private int getSilencePeriodSeconds() {
+        return FIVE_MINUTES * silencePeriod;
     }
+
 
     private void redrawText() {
-        this.silenceFor.setText(String.format(getString(R.string.silence_for_text), makeSilenceForText()));
+        this.silenceFor.setText(String.format(
+                getString(R.string.silence_for_text),
+                Silencer.makeSilenceForText(getSilencePeriodSeconds())));
     }
 
-    private String makeSilenceForText() {
-        return DateUtils.formatElapsedTime(FIVE_MINUTES * silencePeriod);
-    }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
