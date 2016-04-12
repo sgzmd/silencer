@@ -79,19 +79,26 @@ public class MainActivity extends AppCompatActivity
     private void createNotification() {
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
 
-        Notification notification = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("My Content Title")
-                .setContent(remoteViews)
-                .build();
+                .setContentTitle("Silence notifications for 30 minutes")
+//                .setContentText("Click to silence notifications for 15 minutes")
+                .addAction(R.mipmap.ic_launcher, "15 minutes", null)
+                .addAction(R.mipmap.ic_launcher, "1 hour", null)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Click to silence notifications for 30 minutes " +
+                                "or choose one of the options below"))
+                .setOngoing(true);
 
         // Also tried this
-        notification.contentView = remoteViews;
+//        notification.contentView = remoteViews;
+
+//        notification.bigContentView = remoteViews;
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mNotificationManager.notify(1, notification);
+        mNotificationManager.notify(NOTIFICATION_ID, notification.build());
     }
 
     private void createStickyNotification() {
