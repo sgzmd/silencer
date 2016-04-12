@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -76,37 +75,24 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createStickyNotification() {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.abc_ic_menu_cut_mtrl_alpha)
-//                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
-        mBuilder.setOngoing(true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-        mBuilder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        builder
+                .setSmallIcon(R.drawable.notification_template_icon_bg)
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentText(getString(R.string.notification_text))
+                .setOngoing(true);
 
-        RemoteViews rv = new RemoteViews(getPackageName(), R.layout.notification_layout);
-        mBuilder.setContent(rv);
+        // TODO: get proper icon here
+        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_30), null);
+        builder.addAction(R.drawable.abc_ic_menu_paste_mtrl_am_alpha, getString(R.string.min_60), null);
 
-        Intent resultIntent = new Intent(this, MainActivity.class);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Notification notification = mBuilder.build();
-        notification.contentView = rv;
-        notification.bigContentView = rv;
-        notification.headsUpContentView = rv;
-        mNotificationManager.notify(NOTIFICATION_ID, notification);
+        Notification build = builder.build();
+//        build.bigContentView = rv;
+        mNotificationManager.notify(NOTIFICATION_ID, build);
     }
 
     @Override

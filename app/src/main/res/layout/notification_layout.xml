@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+                      android:orientation="horizontal"
+                      android:layout_width="fill_parent"
+                      android:layout_height="fill_parent">
 
-    <Button
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="30 min"-->
+        <!--android:id="@+id/button"/>-->
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="1 Hour"-->
+        <!--android:id="@+id/button2"-->
+        <!--android:layout_gravity="center_horizontal"/>-->
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="30 min"
-        android:id="@+id/button"/>
+        android:text="Hello world!!!"
+        android:id="@+id/textView2"/>
 
-    <Button
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 Hour"
-        android:id="@+id/button2"
-        android:layout_gravity="center_horizontal"/>
+        android:id="@+id/imageView"
+        android:src="@drawable/abc_ic_menu_selectall_mtrl_alpha"/>
 </LinearLayout>

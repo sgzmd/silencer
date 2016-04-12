@@ -11,4 +11,6 @@
     <string name="silent_mode">Do not disturb</string>
     <string name="enable_sticky_notification">Sticky notification</string>
     <string name="text_for_sticky_notification">Show sticky notification with controls</string>
+    <string name="notification_title">Silencer is running</string>
+    <string name="notification_text">For how long you\'d like to silence device</string>
 </resources>
