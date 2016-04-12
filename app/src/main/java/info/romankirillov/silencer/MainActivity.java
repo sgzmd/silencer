@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity";
     public static final int NOTIFICATION_ID = 123;
 
+    static final String SNOOZE_FOR = "info.romankirillov.silencer.snoozefor";
+    static final int SNOOZE_15 = 15;
+    static final int SNOOZE_30 = 30;
+    static final int SNOOZE_60 = 60;
+
     private SeekBar seekBar;
     private TextView silenceFor;
     private int silencePeriod = 10;
@@ -77,28 +82,47 @@ public class MainActivity extends AppCompatActivity
 
 
     private void createNotification() {
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
+        PendingIntent snooze15Intent = PendingIntent.getBroadcast(
+                this.getApplicationContext(),
+                0,
+                makeSnoozeIntent(SNOOZE_15, NotificationReceiver.class),
+                0);
+
+        PendingIntent snooze30Intent = PendingIntent.getBroadcast(
+                this.getApplicationContext(),
+                0,
+                makeSnoozeIntent(SNOOZE_30, NotificationReceiver.class),
+                0);
+
+        PendingIntent snooze60Intent = PendingIntent.getBroadcast(
+                this.getApplicationContext(),
+                0,
+                makeSnoozeIntent(SNOOZE_60, NotificationReceiver.class),
+                0);
+
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Silence notifications for 30 minutes")
-//                .setContentText("Click to silence notifications for 15 minutes")
-                .addAction(R.mipmap.ic_launcher, "15 minutes", null)
-                .addAction(R.mipmap.ic_launcher, "1 hour", null)
+                .addAction(R.mipmap.ic_launcher, "15 minutes", snooze15Intent)
+                .addAction(R.mipmap.ic_launcher, "1 hour", snooze60Intent)
+                .setContentIntent(snooze30Intent)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText("Click to silence notifications for 30 minutes " +
                                 "or choose one of the options below"))
                 .setOngoing(true);
 
-        // Also tried this
-//        notification.contentView = remoteViews;
-
-//        notification.bigContentView = remoteViews;
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         mNotificationManager.notify(NOTIFICATION_ID, notification.build());
+    }
+
+    private Intent makeSnoozeIntent(int requestCode, Class<?> clazz) {
+        Intent intent = new Intent(this, clazz);
+        intent.putExtra(SNOOZE_FOR, requestCode);
+        return intent;
     }
 
     private void createStickyNotification() {
