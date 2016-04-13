@@ -30,9 +30,7 @@ public class MainActivity extends AppCompatActivity
     public static final int NOTIFICATION_ID = 123;
 
     static final String SNOOZE_FOR = "info.romankirillov.silencer.snoozefor";
-    static final int SNOOZE_15 = 16;
     static final int SNOOZE_30 = 30;
-    static final int SNOOZE_60 = 60;
 
     private SeekBar seekBar;
     private TextView silenceFor;
@@ -82,34 +80,14 @@ public class MainActivity extends AppCompatActivity
 
 
     private void createNotification() {
-        PendingIntent snooze15Intent = PendingIntent.getBroadcast(
-                this.getApplicationContext(),
-                0,
-                makeSnoozeIntent(SNOOZE_15, NotificationReceiver.class),
-                0);
-
-        PendingIntent snooze30Intent = PendingIntent.getBroadcast(
-                this.getApplicationContext(),
-                0,
-                makeSnoozeIntent(SNOOZE_30, NotificationReceiver.class),
-                0);
-
-        PendingIntent snooze60Intent = PendingIntent.getBroadcast(
-                this.getApplicationContext(),
-                0,
-                makeSnoozeIntent(SNOOZE_60, NotificationReceiver.class),
-                0);
-
-
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Silence notifications for 30 minutes")
-                .addAction(R.mipmap.ic_launcher, "15 minutes", snooze60Intent)
-                .addAction(R.mipmap.ic_launcher, "1 hour", snooze60Intent)
-                .setContentIntent(snooze30Intent)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Click to silence notifications for 30 minutes " +
-                                "or choose one of the options below"))
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentIntent(PendingIntent.getBroadcast(
+                        this.getApplicationContext(),
+                        0,
+                        makeSnoozeIntent(SNOOZE_30, NotificationReceiver.class),
+                        PendingIntent.FLAG_UPDATE_CURRENT))
                 .setOngoing(true);
 
 
