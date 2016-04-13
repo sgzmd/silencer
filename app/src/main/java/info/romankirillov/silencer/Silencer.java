@@ -33,6 +33,11 @@ public class Silencer {
 
         audio.setRingerMode(ringerMode);
 
+        if (silenceForSeconds == 0) {
+            Toast.makeText(appContext, "Sound snoozed indefinitely", Toast.LENGTH_LONG);
+            return;
+        }
+
         AlarmManager am = (AlarmManager) appContext
                 .getSystemService(Context.ALARM_SERVICE);
 
@@ -55,6 +60,11 @@ public class Silencer {
                         appContext.getString(R.string.toast_text),
                         makeSilenceForText(silenceForSeconds)),
                 Toast.LENGTH_LONG).show();
+    }
+
+    public static void unsilence(Context context) {
+        AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
     }
 
     static String makeSilenceForText(int seconds) {

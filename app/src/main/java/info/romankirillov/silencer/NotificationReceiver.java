@@ -13,11 +13,17 @@ public class NotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Log.d(TAG, "Snooze for: " + intent.getExtras().get(MainActivity.SNOOZE_FOR));
+        Log.d(TAG, "Snooze for: " + intent.getExtras().get(NotificationHelper.SNOOZE_FOR));
 
-        int silenceForMinutes = intent.getExtras().getInt(MainActivity.SNOOZE_FOR);
+        int silenceForMinutes = intent.getExtras().getInt(NotificationHelper.SNOOZE_FOR);
+        int desiredSilentMode = intent.getExtras().getInt(NotificationHelper.DESIRED_SILENT_MODE);
+
+        if (silenceForMinutes == -1) {
+            Silencer.unsilence(context);
+            return;
+        }
 
         // TODO: pass over ringer mode
-        new Silencer(context, silenceForMinutes * 60, AudioManager.RINGER_MODE_VIBRATE).silence();
+        new Silencer(context, silenceForMinutes * 60, desiredSilentMode).silence();
     }
 }

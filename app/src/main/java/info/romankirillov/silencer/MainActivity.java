@@ -1,21 +1,15 @@
 package info.romankirillov.silencer;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,11 +17,6 @@ public class MainActivity extends AppCompatActivity
         implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "MainActivity";
-    public static final int NOTIFICATION_ID = 123;
-
-    static final String SNOOZE_FOR = "info.romankirillov.silencer.snoozefor";
-    static final int SNOOZE_15 = 15;
-    static final int SNOOZE_30 = 30;
 
     private SeekBar seekBar;
     private TextView silenceFor;
@@ -68,45 +57,13 @@ public class MainActivity extends AppCompatActivity
         stickyNotification.setChecked(isStickyEnabled);
 
         if (isStickyEnabled) {
-            createNotification();
+            NotificationHelper.createOrUpdateNotification(this.getApplicationContext());
         }
 
         seekBar.setProgress(1);
         redrawText();
     }
 
-
-    private void createNotification() {
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_silent)
-                .setContentTitle(getString(R.string.notification_title))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setOngoing(true);
-
-        RemoteViews rv = new RemoteViews(getPackageName(), R.layout.notification);
-        rv.setImageViewResource(R.id.notification_icon, R.drawable.ic_silent);
-
-        rv.setOnClickPendingIntent(R.id.btn_notification_30min, makeSnoozeIntent(SNOOZE_30));
-        rv.setOnClickPendingIntent(R.id.btn_notification_15min, makeSnoozeIntent(SNOOZE_15));
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Notification n = notification.build();
-        n.contentView = rv;
-
-        mNotificationManager.notify(NOTIFICATION_ID, n);
-    }
-
-    private PendingIntent makeSnoozeIntent(int snoozeFor) {
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        intent.putExtra(SNOOZE_FOR, snoozeFor);
-        intent.setAction(Integer.toString(snoozeFor));
-        return PendingIntent.getBroadcast(
-                this.getApplicationContext(),
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-    }
 
     @Override
     public void onClick(View view) {
@@ -188,21 +145,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isCheckboxChecked) {
         SharedPreferences.Editor prefs = getPreferences(Context.MODE_PRIVATE).edit();
         switch (compoundButton.getId()) {
             case R.id.sticky_notification: {
                 prefs.putBoolean(
                         getString(R.string.sticky_notification),
-                        b);
-                Log.d(TAG, "Sticky checked: " + b);
+                        isCheckboxChecked);
+                Log.d(TAG, "Sticky checked: " + isCheckboxChecked);
 
-                if (!b) {
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mNotificationManager.cancel(NOTIFICATION_ID);
+                if (!isCheckboxChecked) {
+                    NotificationHelper.cancelNotification(this.getApplicationContext());
                 } else {
-                    createNotification();
+                    NotificationHelper.createOrUpdateNotification(this.getApplicationContext());
                 }
 
             }

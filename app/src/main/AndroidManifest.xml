@@ -21,6 +21,11 @@
 
         <receiver android:process=":remote" android:name=".Alarm"></receiver>
         <receiver android:process=":remote" android:name=".NotificationReceiver"></receiver>
+        <receiver android:process=":remove" android:name=".RingerStatusChangeReceiver">
+            <intent-filter>
+                <action android:name="android.media.RINGER_MODE_CHANGED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
