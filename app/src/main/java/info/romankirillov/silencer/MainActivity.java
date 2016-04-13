@@ -1,6 +1,5 @@
 package info.romankirillov.silencer;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,9 +9,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -21,7 +18,6 @@ import android.widget.RadioButton;
 import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
@@ -30,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     public static final int NOTIFICATION_ID = 123;
 
     static final String SNOOZE_FOR = "info.romankirillov.silencer.snoozefor";
+    static final int SNOOZE_15 = 15;
     static final int SNOOZE_30 = 30;
 
     private SeekBar seekBar;
@@ -81,26 +78,34 @@ public class MainActivity extends AppCompatActivity
 
     private void createNotification() {
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_silent)
                 .setContentTitle(getString(R.string.notification_title))
-                .setContentIntent(PendingIntent.getBroadcast(
-                        this.getApplicationContext(),
-                        0,
-                        makeSnoozeIntent(SNOOZE_30, NotificationReceiver.class),
-                        PendingIntent.FLAG_UPDATE_CURRENT))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setOngoing(true);
 
+        RemoteViews rv = new RemoteViews(getPackageName(), R.layout.notification);
+        rv.setImageViewResource(R.id.notification_icon, R.drawable.ic_silent);
 
+        rv.setOnClickPendingIntent(R.id.btn_notification_30min, makeSnoozeIntent(SNOOZE_30));
+        rv.setOnClickPendingIntent(R.id.btn_notification_15min, makeSnoozeIntent(SNOOZE_15));
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mNotificationManager.notify(NOTIFICATION_ID, notification.build());
+        Notification n = notification.build();
+        n.contentView = rv;
+
+        mNotificationManager.notify(NOTIFICATION_ID, n);
     }
 
-    private Intent makeSnoozeIntent(int requestCode, Class<?> clazz) {
-        Intent intent = new Intent(this, clazz);
-        intent.putExtra(SNOOZE_FOR, requestCode);
-        return intent;
+    private PendingIntent makeSnoozeIntent(int snoozeFor) {
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra(SNOOZE_FOR, snoozeFor);
+        intent.setAction(Integer.toString(snoozeFor));
+        return PendingIntent.getBroadcast(
+                this.getApplicationContext(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override

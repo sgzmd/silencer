@@ -1,45 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
+<LinearLayout style="@android:style/Theme.Material.Light.Dialog"
+              xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center_vertical|left"
-              style="@android:style/Theme.Material.Light.Dialog"
-              android:background="@color/notificationBackground"
+              android:layout_gravity="center"
+              android:gravity="center_vertical"
+              android:orientation="vertical"
               android:padding="5dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp">
+
+        <ImageView
+            android:id="@+id/notification_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical">
+
+            <TextView
+                android:id="@+id/btn_notification_15min"
+                style="@style/NotificationButtonFirst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 minutes"/>
+
+            <TextView
+                android:id="@+id/btn_notification_30min"
+                style="@style/NotificationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30 minutes"/>
+        </LinearLayout>
+    </LinearLayout>
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
-        android:paddingRight="15dp"/>
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@mipmap/ic_launcher"-->
+    <!--android:paddingRight="15dp"/>-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="30 minutes"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_marginRight="15dp"
-        android:id="@+id/btn_notification_silence_30min"
-        android:layout_gravity="center_vertical"
-        android:background="@color/notificationButtonBackground"
-        android:textColor="@color/notificationButtonText"
-        android:textSize="12dp"/>
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="30 minutes"-->
+    <!--android:paddingLeft="15dp"-->
+    <!--android:paddingRight="15dp"-->
+    <!--android:layout_marginRight="15dp"-->
+    <!--android:id="@+id/btn_notification_silence_30min"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:background="@color/notificationButtonBackground"-->
+    <!--android:textColor="@color/notificationButtonText"-->
+    <!--android:textSize="12dp"/>-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 hour"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:id="@+id/btn_notification_silence_60min"
-        android:layout_gravity="center_vertical"
-        android:background="@color/notificationButtonBackground"
-        android:textColor="@color/notificationButtonText"
-        android:textSize="12dp"/>
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="1 hour"-->
+    <!--android:paddingLeft="15dp"-->
+    <!--android:paddingRight="15dp"-->
+    <!--android:id="@+id/btn_notification_silence_60min"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:background="@color/notificationButtonBackground"-->
+    <!--android:textColor="@color/notificationButtonText"-->
+    <!--android:textSize="12dp"/>-->
 
 
 </LinearLayout>
