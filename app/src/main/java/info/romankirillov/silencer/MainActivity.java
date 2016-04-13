@@ -125,42 +125,26 @@ public class MainActivity extends AppCompatActivity
 
         this.seekBar.setProgress(silencePeriod);
         redrawText();
-        silenceFor(view, silencePeriod);
+
+        new Silencer(
+                this.getApplicationContext(),
+                getSilencePeriodSeconds(),
+                this.radioVibration.isChecked()
+                        ? AudioManager.RINGER_MODE_VIBRATE : AudioManager.RINGER_MODE_SILENT)
+                .silence();
     }
 
-    private void silenceFor(View view, int period) {
-        AudioManager audio = (AudioManager) this
-                .getApplicationContext()
-                .getSystemService(Context.AUDIO_SERVICE);
-
-        audio.setRingerMode(this.radioVibration.isChecked()
-                ? AudioManager.RINGER_MODE_VIBRATE : AudioManager.RINGER_MODE_SILENT);
-
-        AlarmManager am = (AlarmManager) this
-                .getApplicationContext()
-                .getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(this.getApplicationContext(), Alarm.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this.getApplicationContext(), 0, intent, 0);
-        am.setExact(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + FIVE_MINUTES * period * 1000 + 3000,
-                pendingIntent);
-
-        Toast.makeText(
-                view.getContext(),
-                String.format(getString(R.string.toast_text), makeSilenceForText()),
-                Toast.LENGTH_LONG).show();
+    private int getSilencePeriodSeconds() {
+        return FIVE_MINUTES * silencePeriod;
     }
+
 
     private void redrawText() {
-        this.silenceFor.setText(String.format(getString(R.string.silence_for_text), makeSilenceForText()));
+        this.silenceFor.setText(String.format(
+                getString(R.string.silence_for_text),
+                Silencer.makeSilenceForText(getSilencePeriodSeconds())));
     }
 
-    private String makeSilenceForText() {
-        return DateUtils.formatElapsedTime(FIVE_MINUTES * silencePeriod);
-    }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
