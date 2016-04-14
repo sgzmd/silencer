@@ -23,7 +23,6 @@ public class NotificationReceiver extends BroadcastReceiver {
             return;
         }
 
-        // TODO: pass over ringer mode
         new Silencer(context, silenceForMinutes * 60, desiredSilentMode).silence();
     }
 }

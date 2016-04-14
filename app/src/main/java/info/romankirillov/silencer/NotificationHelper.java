@@ -10,9 +10,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-/**
- * Created by kirillov on 13/04/2016.
- */
 public class NotificationHelper {
     public static final int NOTIFICATION_ID = 123;
 
@@ -25,12 +22,6 @@ public class NotificationHelper {
     static final String DESIRED_SILENT_MODE = "info.romankirillov.silencer.silentmode";
 
     private static final String TAG = "NotificationHelper";
-
-    enum NotificationType {
-        SOUND_ENABLED,
-        VIBRATION,
-        SILENT
-    }
 
     static void createOrUpdateNotification(Context context) {
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
@@ -82,12 +73,11 @@ public class NotificationHelper {
     private static int getNotificationIconId(int ringerMode) {
         switch (ringerMode) {
             case AudioManager.RINGER_MODE_SILENT:
+                return R.mipmap.ic_flat_silent;
             case AudioManager.RINGER_MODE_VIBRATE:
-                Log.d(TAG, "getNotificationIconId = " + R.drawable.ic_silent);
-                return R.drawable.ic_silent;
+                return R.mipmap.ic_flat_vibro;
             default:
-                Log.d(TAG, "getNotificationIconId = " + R.drawable.ic_sound);
-                return R.drawable.ic_sound;
+                return R.mipmap.ic_flat_sound;
         }
     }
 
