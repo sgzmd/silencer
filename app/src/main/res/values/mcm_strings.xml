@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mcm_silence_short_title" translatable="false">
+        Duration of the shorter silence interval, in minutes
+    </string>
+    <string name="mcm_silence_short_description" translatable="false">
+        For buttons displayed in notification, this restriction specifies duration of the silence
+        for the shorter interval (15 minutes in default configuration)
+    </string>
+</resources>

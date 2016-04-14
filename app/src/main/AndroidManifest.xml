@@ -26,6 +26,9 @@
                 <action android:name="android.media.RINGER_MODE_CHANGED"/>
             </intent-filter>
         </receiver>
+
+        <meta-data android:name="android.content.APP_RESTRICTIONS"
+            android:resource="@xml/app_restrictions" />
     </application>
 
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>

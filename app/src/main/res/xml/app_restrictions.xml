@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<restrictions xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!--<restriction-->
+    <!--android:key="string"-->
+    <!--android:title="string resource"-->
+    <!--android:restrictionType=["bool" | "string" | "integer"-->
+    <!--| "choice" | "multi-select" | "hidden"-->
+    <!--| "bundle" | "bundle_array"]-->
+    <!--android:description="string resource"-->
+    <!--android:entries="string-array resource"-->
+    <!--android:entryValues="string-array resource"-->
+    <!--android:defaultValue="reference" >-->
+    <!--<restriction ... />-->
+    <!--...-->
+    <!--</restriction>-->
+
+    <restriction
+        android:key="silence_short"
+        android:title="@string/mcm_silence_short_title"
+        android:restrictionType="integer"
+        android:description="@string/mcm_silence_short_description"
+        android:defaultValue="15"/>
+
+</restrictions>
+ 
