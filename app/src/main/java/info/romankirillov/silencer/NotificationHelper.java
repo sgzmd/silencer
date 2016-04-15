@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 public class NotificationHelper {
@@ -44,23 +43,15 @@ public class NotificationHelper {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notification.setContent(makeRemoteViews(context, currentRingerMode));
+        notification.setContent(makeRemoteViews(context, currentRingerMode, R.layout.notification));
 
-        Notification n = notification.build();
-        n.bigContentView = makeRemoteViews(context, currentRingerMode);
-
-        mNotificationManager.notify(NOTIFICATION_ID, n);
+        mNotificationManager.notify(NOTIFICATION_ID, notification.build());
     }
 
     @NonNull
-    private static RemoteViews makeRemoteViews(Context context, int currentRingerMode) {
+    private static RemoteViews makeRemoteViews(Context context, int currentRingerMode, int layout) {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.notification);
         rv.setImageViewResource(R.id.notification_icon, getNotificationIconId(currentRingerMode));
-
-        int iconClickSnoozePeriod = SNOOZE_INDEF;
-        if (currentRingerMode != AudioManager.RINGER_MODE_NORMAL) {
-            iconClickSnoozePeriod = UNSNOOZE;
-        }
 
         rv.setOnClickPendingIntent(
                 R.id.btn_notification_30min,
