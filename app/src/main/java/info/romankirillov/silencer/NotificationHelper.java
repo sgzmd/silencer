@@ -10,9 +10,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-/**
- * Created by kirillov on 13/04/2016.
- */
 public class NotificationHelper {
     public static final int NOTIFICATION_ID = 123;
 
@@ -26,15 +23,9 @@ public class NotificationHelper {
 
     private static final String TAG = "NotificationHelper";
 
-    enum NotificationType {
-        SOUND_ENABLED,
-        VIBRATION,
-        SILENT
-    }
-
     static void createOrUpdateNotification(Context context) {
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_silent)
+                .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setOngoing(true);
@@ -63,7 +54,7 @@ public class NotificationHelper {
                 makeSnoozeIntent(context, SNOOZE_15));
         rv.setOnClickPendingIntent(
                 R.id.notification_icon,
-                makeSnoozeIntent(context, iconClickSnoozePeriod));
+                makeToggleSoundIntent(context, currentRingerMode));
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -82,12 +73,11 @@ public class NotificationHelper {
     private static int getNotificationIconId(int ringerMode) {
         switch (ringerMode) {
             case AudioManager.RINGER_MODE_SILENT:
+                return R.mipmap.ic_flat_silent;
             case AudioManager.RINGER_MODE_VIBRATE:
-                Log.d(TAG, "getNotificationIconId = " + R.drawable.ic_silent);
-                return R.drawable.ic_silent;
+                return R.mipmap.ic_flat_vibro;
             default:
-                Log.d(TAG, "getNotificationIconId = " + R.drawable.ic_sound);
-                return R.drawable.ic_sound;
+                return R.mipmap.ic_flat_sound;
         }
     }
 
@@ -101,6 +91,34 @@ public class NotificationHelper {
         } else {
             return AudioManager.RINGER_MODE_VIBRATE;
         }
+    }
+
+    private static PendingIntent makeToggleSoundIntent(Context context, int currentRingerMode) {
+        Intent intent = new Intent(context, NotificationReceiver.class);
+        intent.putExtra(SNOOZE_FOR, SNOOZE_INDEF);
+
+        int desiredSilentMode = AudioManager.RINGER_MODE_NORMAL;
+
+        switch (currentRingerMode) {
+            case AudioManager.RINGER_MODE_NORMAL:
+                desiredSilentMode = AudioManager.RINGER_MODE_VIBRATE;
+                break;
+            case AudioManager.RINGER_MODE_VIBRATE:
+                desiredSilentMode = AudioManager.RINGER_MODE_SILENT;
+                break;
+            case AudioManager.RINGER_MODE_SILENT:
+                desiredSilentMode = AudioManager.RINGER_MODE_NORMAL;
+                break;
+        }
+
+        intent.putExtra(DESIRED_SILENT_MODE, desiredSilentMode);
+        intent.setAction(Integer.toString(SNOOZE_INDEF));
+
+        return PendingIntent.getBroadcast(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private static PendingIntent makeSnoozeIntent(Context context, int snoozeFor) {

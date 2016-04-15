@@ -125,7 +125,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onCheckedChanged(View view) {
-        SharedPreferences.Editor prefs = getPreferences(Context.MODE_PRIVATE).edit();
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                MainActivity.class.getName(), 0);
+
+        SharedPreferences.Editor prefs = sharedPreferences.edit();
+
         switch (view.getId()) {
             case R.id.radio_vibro: {
                 prefs.putBoolean(
@@ -142,11 +146,16 @@ public class MainActivity extends AppCompatActivity
 
         }
         prefs.commit();
+        NotificationHelper.createOrUpdateNotification(getApplicationContext());
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isCheckboxChecked) {
-        SharedPreferences.Editor prefs = getPreferences(Context.MODE_PRIVATE).edit();
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                MainActivity.class.getName(), 0);
+
+        SharedPreferences.Editor prefs = sharedPreferences.edit();
+
         switch (compoundButton.getId()) {
             case R.id.sticky_notification: {
                 prefs.putBoolean(
