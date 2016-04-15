@@ -1,11 +1,13 @@
 package info.romankirillov.silencer;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -28,6 +30,7 @@ public class NotificationHelper {
                 .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(Notification.PRIORITY_MAX) // Notification stays on the top
                 .setOngoing(true);
 
         AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -38,6 +41,19 @@ public class NotificationHelper {
 
         notification.setContentIntent(activityIntent);
 
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notification.setContent(makeRemoteViews(context, currentRingerMode));
+
+        Notification n = notification.build();
+        n.bigContentView = makeRemoteViews(context, currentRingerMode);
+
+        mNotificationManager.notify(NOTIFICATION_ID, n);
+    }
+
+    @NonNull
+    private static RemoteViews makeRemoteViews(Context context, int currentRingerMode) {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.notification);
         rv.setImageViewResource(R.id.notification_icon, getNotificationIconId(currentRingerMode));
 
@@ -55,13 +71,7 @@ public class NotificationHelper {
         rv.setOnClickPendingIntent(
                 R.id.notification_icon,
                 makeToggleSoundIntent(context, currentRingerMode));
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notification.setContent(rv);
-
-        mNotificationManager.notify(NOTIFICATION_ID, notification.build());
+        return rv;
     }
 
     static void cancelNotification(Context context) {
