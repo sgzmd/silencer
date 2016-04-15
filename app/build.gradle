@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "info.romankirillov.silencer"
-        minSdkVersion 22
+        minSdkVersion 20
         targetSdkVersion 23
         versionCode 3
         versionName "1.0.2a"
