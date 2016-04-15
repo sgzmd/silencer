@@ -16,7 +16,7 @@ public class NotificationHelper {
     static final int UNSNOOZE = -1;
     static final int SNOOZE_15 = 15;
     static final int SNOOZE_30 = 30;
-    static final int SNOOZE_INDEF = 0;
+    static final int SNOOZE_INDEF = -2;
 
     static final String SNOOZE_FOR = "info.romankirillov.silencer.snoozefor";
     static final String DESIRED_SILENT_MODE = "info.romankirillov.silencer.silentmode";

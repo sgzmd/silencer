@@ -33,7 +33,7 @@ public class Silencer {
 
         audio.setRingerMode(ringerMode);
 
-        if (silenceForSeconds == 0) {
+        if (silenceForSeconds == NotificationHelper.SNOOZE_INDEF) {
             Toast.makeText(appContext, "Sound snoozed indefinitely", Toast.LENGTH_LONG);
             return;
         }

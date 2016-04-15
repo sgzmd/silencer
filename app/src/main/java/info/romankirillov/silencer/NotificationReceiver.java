@@ -18,11 +18,15 @@ public class NotificationReceiver extends BroadcastReceiver {
         int silenceForMinutes = intent.getExtras().getInt(NotificationHelper.SNOOZE_FOR);
         int desiredSilentMode = intent.getExtras().getInt(NotificationHelper.DESIRED_SILENT_MODE);
 
-        if (silenceForMinutes == -1) {
-            Silencer.unsilence(context);
-            return;
+        switch (silenceForMinutes) {
+            case NotificationHelper.SNOOZE_INDEF:
+                new Silencer(context, NotificationHelper.SNOOZE_INDEF, desiredSilentMode).silence();
+                break;
+            case NotificationHelper.UNSNOOZE:
+                Silencer.unsilence(context);
+                break;
+            default:
+                new Silencer(context, silenceForMinutes * 60, desiredSilentMode).silence();
         }
-
-        new Silencer(context, silenceForMinutes * 60, desiredSilentMode).silence();
     }
 }
