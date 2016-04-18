@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_silence_now"
+            android:icon="@drawable/ic_silent_mode"
             android:title="Silence now" />
         <item
             android:id="@+id/nav_gallery"
