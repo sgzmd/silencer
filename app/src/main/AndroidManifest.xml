@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="info.romankirillov.silencer"
-          xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="info.romankirillov.silencer"
     android:versionCode="2"
     android:versionName="0.2a">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -10,26 +12,33 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
-        <activity android:name=".MainActivity">
+        <receiver
+            android:name=".Alarm"
+            android:process=":remote" />
+        <receiver
+            android:name=".NotificationReceiver"
+            android:process=":remote" />
+        <receiver
+            android:name=".RingerStatusChangeReceiver"
+            android:process=":remove">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-
-        <receiver android:process=":remote" android:name=".Alarm"></receiver>
-        <receiver android:process=":remote" android:name=".NotificationReceiver"></receiver>
-        <receiver android:process=":remove" android:name=".RingerStatusChangeReceiver">
-            <intent-filter>
-                <action android:name="android.media.RINGER_MODE_CHANGED"/>
+                <action android:name="android.media.RINGER_MODE_CHANGED" />
             </intent-filter>
         </receiver>
 
-        <meta-data android:name="android.content.APP_RESTRICTIONS"
+        <meta-data
+            android:name="android.content.APP_RESTRICTIONS"
             android:resource="@xml/app_restrictions" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/MyTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
 </manifest>

@@ -35,7 +35,7 @@ public class NotificationHelper {
         AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int currentRingerMode = audio.getRingerMode();
 
-        Intent mainActivityIntent = new Intent(context, MainActivity.class);
+        Intent mainActivityIntent = new Intent(context, TimeBasedSilenceActivity.class);
         PendingIntent activityIntent = PendingIntent.getActivity(context, 0, mainActivityIntent, 0);
 
         notification.setContentIntent(activityIntent);
@@ -84,7 +84,7 @@ public class NotificationHelper {
 
     private static int getMutedRingerMode(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(
-                MainActivity.class.getName(), 0);
+                TimeBasedSilenceActivity.class.getName(), 0);
 
         String key = context.getString(R.string.silence_mode_dnd);
         if (sharedPreferences.getBoolean(key, false)) {

@@ -12,4 +12,10 @@
     <string name="enable_sticky_notification">Sticky notification</string>
     <string name="text_for_sticky_notification">Show sticky notification with controls</string>
     <string name="notification_title">Silence notifications for 30 minutes</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
