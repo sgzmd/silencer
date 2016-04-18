@@ -1,13 +1,14 @@
 package info.romankirillov.silencer;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 public class NotificationHelper {
@@ -16,7 +17,7 @@ public class NotificationHelper {
     static final int UNSNOOZE = -1;
     static final int SNOOZE_15 = 15;
     static final int SNOOZE_30 = 30;
-    static final int SNOOZE_INDEF = 0;
+    static final int SNOOZE_INDEF = -2;
 
     static final String SNOOZE_FOR = "info.romankirillov.silencer.snoozefor";
     static final String DESIRED_SILENT_MODE = "info.romankirillov.silencer.silentmode";
@@ -28,6 +29,7 @@ public class NotificationHelper {
                 .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(Notification.PRIORITY_MAX) // Notification stays on the top
                 .setOngoing(true);
 
         AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -38,13 +40,18 @@ public class NotificationHelper {
 
         notification.setContentIntent(activityIntent);
 
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notification.setContent(makeRemoteViews(context, currentRingerMode, R.layout.notification));
+
+        mNotificationManager.notify(NOTIFICATION_ID, notification.build());
+    }
+
+    @NonNull
+    private static RemoteViews makeRemoteViews(Context context, int currentRingerMode, int layout) {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.notification);
         rv.setImageViewResource(R.id.notification_icon, getNotificationIconId(currentRingerMode));
-
-        int iconClickSnoozePeriod = SNOOZE_INDEF;
-        if (currentRingerMode != AudioManager.RINGER_MODE_NORMAL) {
-            iconClickSnoozePeriod = UNSNOOZE;
-        }
 
         rv.setOnClickPendingIntent(
                 R.id.btn_notification_30min,
@@ -55,13 +62,7 @@ public class NotificationHelper {
         rv.setOnClickPendingIntent(
                 R.id.notification_icon,
                 makeToggleSoundIntent(context, currentRingerMode));
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notification.setContent(rv);
-
-        mNotificationManager.notify(NOTIFICATION_ID, notification.build());
+        return rv;
     }
 
     static void cancelNotification(Context context) {

@@ -1,22 +1,19 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="MyTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="NotificationButton">
+    <style name="NotificationButton" parent="@android:style/TextAppearance.StatusBar.EventContent">
         <item name="android:textSize">16dp</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingRight">6dp</item>
-        <item name="android:layout_marginBottom">4dp</item>
-
         <item name="android:paddingLeft">6dp</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="NotificationButtonFirst" parent="NotificationButton">
