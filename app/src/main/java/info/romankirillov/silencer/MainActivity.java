@@ -1,7 +1,5 @@
 package info.romankirillov.silencer;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -53,7 +51,12 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            int count = getFragmentManager().getBackStackEntryCount();
+            if (count == 0) {
+                super.onBackPressed();
+            } else {
+                getFragmentManager().popBackStack();
+            }
         }
     }
 
@@ -86,10 +89,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_silence_timed) {
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.main_content_frame, new TimedSilenceFragment());
-            fragmentTransaction.commit();
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_content_frame, new TimedSilenceFragment())
+                    .addToBackStack(null)
+                    .commit();
 
             // Handle the camera action
         } else if (id == R.id.nav_silence_location) {
@@ -97,10 +101,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_silence_schedule) {
 
         } else if (id == R.id.nav_share) {
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.main_content_frame, new SettingsFragment());
-            fragmentTransaction.commit();
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_content_frame, new SettingsFragment())
+                    .addToBackStack(null)
+                    .commit();
 
         } else if (id == R.id.nav_send) {
 
@@ -110,4 +115,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,10 +98,10 @@ public class TimedSilenceFragment extends Fragment implements
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        SharedPreferences.Editor editor = getSharedPreferences().edit();
-        editor.putLong(getString(R.string.timed_silence_default_mode), id);
-        Log.d(TAG, "Selected row: " + id);
-        editor.commit();
+        getSharedPreferences()
+                .edit()
+                .putLong(getString(R.string.timed_silence_default_mode), id)
+                .commit();
     }
 
     private SharedPreferences getSharedPreferences() {
