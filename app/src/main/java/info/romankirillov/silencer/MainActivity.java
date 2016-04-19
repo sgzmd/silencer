@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import info.romankirillov.silencer.fragments.SettingsFragment;
 import info.romankirillov.silencer.fragments.TimedSilenceFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -96,6 +97,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_silence_schedule) {
 
         } else if (id == R.id.nav_share) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.main_content_frame, new SettingsFragment());
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_send) {
 

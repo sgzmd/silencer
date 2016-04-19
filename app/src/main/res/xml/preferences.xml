@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Ringer mode settings"
+        android:key="pref_key_ringer_settings">
+        <CheckBoxPreference
+            android:key="pref_ringer_mode_silent"
+            android:title="Use silent mode"
+            android:summary="When muting notifications, will use silent mode rather than vibration"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>
