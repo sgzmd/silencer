@@ -13,4 +13,7 @@
     <string name="enable_sticky_notification">Постоянное оповещение</string>
     <string name="text_for_sticky_notification">Показывать постоянную нотификацию с кнопками</string>
     <string name="notification_title">Выключить звук на 30 минут</string>
+
+    <string name="start_silent_mode">Режим без звука</string>
+    <string name="start_vibro_mode">Режим вибрации</string>
 </resources>

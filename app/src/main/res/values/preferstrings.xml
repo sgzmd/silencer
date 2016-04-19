@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="default_preferences_name" translatable="false">info.romankirillov.silencer.preferences</string>
     <string name="silence_mode_dnd" translatable="false">info.romankirillov.silencer.silence_mode_dnd</string>
     <string name="sticky_notification" translatable="false">info.romankirillov.silencer.sticky_notification</string>
+    <string name="timed_silence_default_mode" translatable="false">info.romankirillov.silencer.default_mode</string>
 </resources>
