@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="time"
                 android:ems="10"
-                android:id="@+id/editText"
+                android:id="@+id/silenceFrom"
                 android:layout_below="@+id/textView2"
                 android:layout_alignStart="@+id/textView2"
                  />
@@ -49,7 +49,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Silence to:"
                 android:id="@+id/textView3"
-                android:layout_below="@+id/editText"
+                android:layout_below="@+id/silenceFrom"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="22dp" />
 
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="time"
                 android:ems="10"
-                android:id="@+id/editText2"
+                android:id="@+id/silenceTo"
                 android:layout_below="@+id/textView3"
                 android:layout_alignParentLeft="true" />
 
@@ -68,8 +68,9 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Days of week:"
                 android:id="@+id/textView4"
-                android:layout_below="@+id/editText2"
+                android:layout_below="@+id/silenceTo"
                 android:layout_alignParentStart="true"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="55dp" />
 
             <ToggleButton
@@ -78,6 +79,7 @@
                 android:text="Mon"
                 android:id="@+id/toggleMonday"
                 android:layout_centerVertical="true"
+                android:layout_below="@id/textView4"
                 android:layout_alignParentStart="true"
                 android:checked="false" />
 
@@ -88,6 +90,7 @@
                 android:id="@+id/toggleTuesday"
                 android:checked="false"
                 android:layout_centerVertical="true"
+                android:layout_below="@id/textView4"
                 android:layout_toEndOf="@+id/toggleMonday" />
 
             <ToggleButton
@@ -96,6 +99,7 @@
                 android:text="Mon"
                 android:id="@+id/toggleWednesday"
                 android:checked="false"
+                android:layout_below="@id/textView4"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/toggleTuesday" />
 
