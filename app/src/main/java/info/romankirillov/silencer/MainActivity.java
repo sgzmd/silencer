@@ -1,15 +1,15 @@
 package info.romankirillov.silencer;
 
-import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
     private MyFragmentPagerAdapter pagerAdapter;
     private ViewPager viewPager;
@@ -26,8 +26,48 @@ public class MainActivity extends FragmentActivity {
         this.viewPager = (ViewPager) findViewById(R.id.pager);
 
         viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d("Main", "Pos: " + position);
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Silence now"));
+        tabLayout.addTab(tabLayout.newTab().setText("Schedule"));
+        tabLayout.addTab(tabLayout.newTab().setText("Settings"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
+
+
 
     class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -42,7 +82,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
 
         @Override
