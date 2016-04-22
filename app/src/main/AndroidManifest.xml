@@ -9,8 +9,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/MyTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/ClockBlueAndPink">
+        <activity android:name=".OldSilencerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -18,6 +18,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+
+        </activity>
 
         <receiver android:process=":remote" android:name=".Alarm"></receiver>
         <receiver android:process=":remote" android:name=".NotificationReceiver"></receiver>
