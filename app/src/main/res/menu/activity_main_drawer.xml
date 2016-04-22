@@ -18,8 +18,15 @@
 
     <item android:title="Quick silence">
         <menu>
-            <item android:id="@+id/quick_silence_15" android:title="15 minutes"/>
-            <item android:id="@+id/quick_silence_30" android:title="30 minutes"/>
+            <item
+                android:id="@+id/quick_silence_15"
+                android:title="15 minutes"
+                android:icon="@mipmap/ic_15min"/>
+
+            <item
+                android:id="@+id/quick_silence_30"
+                android:title="30 minutes"
+                android:icon="@drawable/ic_30min"/>
             <item android:id="@+id/quick_silence_60" android:title="1 hour"/>
         </menu>
     </item>
