@@ -16,16 +16,20 @@
             android:title="Schedule" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Quick silence">
+        <menu>
+            <item android:id="@+id/quick_silence_15" android:title="15 minutes"/>
+            <item android:id="@+id/quick_silence_30" android:title="30 minutes"/>
+            <item android:id="@+id/quick_silence_60" android:title="1 hour"/>
+        </menu>
+    </item>
+
+    <item android:title="Settings">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_preferences"
+                android:icon="@mipmap/ic_preferences"
+                android:title="Settings" />
         </menu>
     </item>
 

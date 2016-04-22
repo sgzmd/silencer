@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity
                     .commit();
 
             // Handle the camera action
-        } else if (id == R.id.nav_silence_location) {
-
+//        } else if (id == R.id.nav_silence_location) {
+//
         } else if (id == R.id.nav_silence_schedule) {
             getFragmentManager()
                     .beginTransaction()
@@ -106,14 +106,12 @@ public class MainActivity extends AppCompatActivity
                     .addToBackStack(null)
                     .commit();
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_preferences) {
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_content_frame, new SettingsFragment())
                     .addToBackStack(null)
                     .commit();
-
-        } else if (id == R.id.nav_send) {
 
         }
 
