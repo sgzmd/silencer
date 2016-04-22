@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import info.romankirillov.silencer.fragments.SchedulePickerFragment;
 import info.romankirillov.silencer.fragments.SettingsFragment;
 import info.romankirillov.silencer.fragments.TimedSilenceFragment;
 
@@ -99,6 +100,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_silence_location) {
 
         } else if (id == R.id.nav_silence_schedule) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_content_frame, new SchedulePickerFragment())
+                    .addToBackStack(null)
+                    .commit();
 
         } else if (id == R.id.nav_share) {
             getFragmentManager()
