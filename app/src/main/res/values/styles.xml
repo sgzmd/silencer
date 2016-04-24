@@ -29,4 +29,12 @@
     </style>
 
 
+    <style name="durationSpinnerStyle" parent="Base.TextAppearance.AppCompat.Large">
+        <item name="android:textSize">50dp</item>
+    </style>
+
+    <style name="modeSpinnerStyle" parent="@android:style/Widget.Spinner">
+        <item name="android:textSize">30dp</item>
+    </style>
+
 </resources>
