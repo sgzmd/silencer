@@ -46,13 +46,23 @@ public class SilenceFragment extends Fragment {
         modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         modeSpinner.setAdapter(modeAdapter);
 
-        ArrayAdapter<String> durationAdapter = new ArrayAdapter<>(
+        final ArrayAdapter<String> durationAdapter = new ArrayAdapter<>(
                 getActivity(),
                 R.layout.silence_duration_spinner_item,
                 new String[] {
                         getString(R.string.min_15),
                         getString(R.string.min_30),
-                        getString(R.string.min_60)
+                        getString(R.string.min_60),
+                        getString(R.string.min_75),
+                        getString(R.string.min_90),
+                        getString(R.string.min_120),
+                        getString(R.string.min_150),
+                        getString(R.string.min_180),
+                        getString(R.string.min_240),
+                        getString(R.string.min_300),
+                        getString(R.string.min_360),
+                        getString(R.string.min_420),
+                        getString(R.string.min_480),
                 });
 
         durationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

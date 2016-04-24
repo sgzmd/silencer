@@ -4,5 +4,6 @@
     android:layout_width="match_parent"
     style="@style/durationSpinnerStyle"
     android:gravity="center_horizontal"
+    android:padding="10dp"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"/>
