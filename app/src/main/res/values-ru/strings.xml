@@ -8,6 +8,18 @@
     <string name="min_15">15 минут</string>
     <string name="min_30">30 минут</string>
     <string name="min_60">1 час</string>
+    <string name="min_75">1 час 15 минут</string>
+    <string name="min_90">Полтора часа</string>
+    <string name="min_120">2 часа</string>
+    <string name="min_150">2 с половиной часа</string>
+    <string name="min_180">3 часа</string>
+    <string name="min_240">4 часа</string>
+    <string name="min_300">5 часов</string>
+    <string name="min_360">6 часов</string>
+    <string name="min_420">7 часов</string>
+    <string name="min_480">8 часов</string>
+
+    <string name="min_custom">По выбору пользователя</string>
     <string name="vibro_mode">Режим вибрации</string>
     <string name="silent_mode">Не беспокоить</string>
     <string name="enable_sticky_notification">Постоянное оповещение</string>

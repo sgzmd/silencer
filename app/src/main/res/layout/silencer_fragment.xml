@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center_horizontal|center_vertical">
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="16" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/durationSpinner"
+        android:background="@drawable/custom_spinner_background"
+        android:padding="10dp"
+        android:layout_weight="2"
         android:layout_centerVertical="true"
-
         android:layout_centerHorizontal="true" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/silenceModeSpinner"
-        android:layout_above="@+id/durationSpinner"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="34dp" />
+        android:layout_marginBottom="45dp"
+        android:padding="10dp"
+        android:layout_weight="2"
+        android:background="@drawable/custom_spinner_background"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="80dp"
@@ -24,8 +34,14 @@
         android:id="@+id/silence_go"
         android:src="@mipmap/ic_go"
         android:adjustViewBounds="false"
-        android:layout_below="@+id/durationSpinner"
+        android:layout_weight="2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp" />
 
-</RelativeLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="16" />
+
+</LinearLayout>

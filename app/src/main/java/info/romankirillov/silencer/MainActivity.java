@@ -77,12 +77,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new SilenceFragment();
+            if (position == 0) {
+                return new SilenceFragment();
+            } else {
+                return null;
+            }
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
 
         @Override
