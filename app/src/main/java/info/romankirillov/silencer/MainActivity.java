@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Silence now"));
         tabLayout.addTab(tabLayout.newTab().setText("Schedule"));
-        tabLayout.addTab(tabLayout.newTab().setText("Settings"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -65,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        viewPager.setCurrentItem(0);
     }
 
 
