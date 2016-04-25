@@ -37,4 +37,8 @@
         <item name="android:textSize">30dp</item>
     </style>
 
+    <style name="scheduleListDayOfWeek">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
 </resources>

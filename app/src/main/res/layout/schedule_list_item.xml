@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Vibration mode from 15:00 to 17:00"
+        android:id="@+id/textView2"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            style="@style/scheduleListDayOfWeek"
+            android:layout_height="wrap_content"
+            android:text="Mon"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            style="@style/scheduleListDayOfWeek"
+            android:layout_height="wrap_content"
+            android:text="Tue"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            style="@style/scheduleListDayOfWeek"
+            android:layout_height="wrap_content"
+            android:text="Wed"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            style="@style/scheduleListDayOfWeek"
+            android:layout_height="wrap_content"
+            android:text="Thu"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            style="@style/scheduleListDayOfWeek"
+            android:layout_height="wrap_content"
+            android:text="Fri"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            style="@style/scheduleListDayOfWeek"
+            android:layout_height="wrap_content"
+            android:text="Sat"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            style="@style/scheduleListDayOfWeek"
+            android:layout_height="wrap_content"
+            android:text="Sun"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="-6dp">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enabled"
+            android:id="@+id/checkBox"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
