@@ -60,9 +60,6 @@ public class SilencerEspressoTest {
 
     @After
     public void after() {
-        onView(withId(R.id.durationSpinner)).perform(click());
-        onView(withText("15 minutes")).perform(click());
-
         Silencer.unsilence(InstrumentationRegistry.getTargetContext());
     }
 
