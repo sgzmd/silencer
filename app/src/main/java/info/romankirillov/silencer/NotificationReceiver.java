@@ -20,13 +20,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         switch (silenceForMinutes) {
             case NotificationHelper.SNOOZE_INDEF:
-                new Silencer(context, NotificationHelper.SNOOZE_INDEF, desiredSilentMode).silence();
+                Silencer.silence(context, NotificationHelper.SNOOZE_INDEF, desiredSilentMode);
                 break;
             case NotificationHelper.UNSNOOZE:
                 Silencer.unsilence(context);
                 break;
             default:
-                new Silencer(context, silenceForMinutes * 60, desiredSilentMode).silence();
+                Silencer.silence(context, silenceForMinutes * 60, desiredSilentMode);
         }
     }
 }

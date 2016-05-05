@@ -3,6 +3,7 @@ package info.romankirillov.silencer;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -34,6 +36,8 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
     private Spinner durationSpinner;
     private SharedPreferences preferences;
     private TextView customDurationText;
+    private ImageView silenceButton;
+
     private int durationHours = 0;
     private int durationMinutes = 0;
 
@@ -50,6 +54,7 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
         modeSpinner = (Spinner) getActivity().findViewById(R.id.silenceModeSpinner);
         durationSpinner = (Spinner) getActivity().findViewById(R.id.durationSpinner);
         customDurationText = (TextView) getActivity().findViewById(R.id.customDurationText);
+        silenceButton = (ImageView) getActivity().findViewById(R.id.silence_go);
 
         ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(
                 this.getActivity(),
@@ -122,6 +127,16 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
         });
 
         durationSpinner.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        silenceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Silencer.silence(
+                        SilenceFragment.this.getActivity(),
+                        3,
+                        AudioManager.RINGER_MODE_VIBRATE);
+            }
+        });
     }
 
     private void startTimePickerDialogue() {

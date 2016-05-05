@@ -88,12 +88,11 @@ public class OldSilencerActivity extends AppCompatActivity
         this.seekBar.setProgress(silencePeriod);
         redrawText();
 
-        new Silencer(
+        Silencer.silence(
                 this.getApplicationContext(),
                 getSilencePeriodSeconds(),
                 this.radioVibration.isChecked()
-                        ? AudioManager.RINGER_MODE_VIBRATE : AudioManager.RINGER_MODE_SILENT)
-                .silence();
+                        ? AudioManager.RINGER_MODE_VIBRATE : AudioManager.RINGER_MODE_SILENT);
     }
 
     private int getSilencePeriodSeconds() {

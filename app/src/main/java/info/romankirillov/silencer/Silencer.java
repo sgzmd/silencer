@@ -12,22 +12,13 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class Silencer {
-    private final int silenceForSeconds;
-    private final int ringerMode;
-    private final Context appContext;
-
     private static final String TAG = "Silencer";
 
-    public Silencer(Context appContext, int silenceForSeconds, int ringerMode) {
-        this.appContext = appContext;
-        this.silenceForSeconds = silenceForSeconds;
-        this.ringerMode = ringerMode;
+    public static void silence(Context appContext, int silenceForSeconds, int ringerMode) {
 
         Log.i(TAG, String.format(
-                "Silencer constructed: period=%d seconds, mode=%d", silenceForSeconds, ringerMode));
-    }
+                "Silencing for: period=%d seconds, mode=%d", silenceForSeconds, ringerMode));
 
-    public void silence() {
         AudioManager audio = (AudioManager) appContext
                 .getSystemService(Context.AUDIO_SERVICE);
 
@@ -46,7 +37,7 @@ public class Silencer {
                 appContext, 0, intent, 0);
 
         Calendar alertTime = Calendar.getInstance();
-        alertTime.add(Calendar.SECOND, this.silenceForSeconds);
+        alertTime.add(Calendar.SECOND, silenceForSeconds);
         alertTime.add(Calendar.SECOND, 3);
 
         am.setExact(
@@ -65,6 +56,10 @@ public class Silencer {
     public static void unsilence(Context context) {
         AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+    }
+
+    public static int getCurrentRingerMode(Context context) {
+        return ((AudioManager) context.getSystemService(Context.AUDIO_SERVICE)).getRingerMode();
     }
 
     static String makeSilenceForText(int seconds) {
