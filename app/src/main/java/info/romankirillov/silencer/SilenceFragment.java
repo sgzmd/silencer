@@ -2,6 +2,7 @@ package info.romankirillov.silencer;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -176,7 +177,15 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
                     public boolean onMenuItemClick(MenuItem item) {
                         Log.d(TAG, "menu item selected: " + item);
 
-                        return false;
+//                        switch (item.getItemId()) {
+//                            case R.id.menu_settings: {
+                                startActivity(new Intent(
+                                        SilenceFragment.this.getActivity(),
+                                        SettingsActivity.class));
+//                            }
+//                        }
+
+                        return true;
                     }
                 });
 

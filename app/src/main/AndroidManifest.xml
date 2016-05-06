@@ -19,6 +19,7 @@
         </intent-filter>
 
         </activity>
+        <activity android:name=".SettingsActivity"/>
 
         <receiver android:process=":remote" android:name=".Alarm"></receiver>
         <receiver android:process=":remote" android:name=".NotificationReceiver"></receiver>

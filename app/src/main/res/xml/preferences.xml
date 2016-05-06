@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_sticky_notification_cat"
+        android:title="Sticky notification options">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_enable_sticky_notification"
+            android:summary="Sticky notification on the lock screen"
+            android:title="Enable sticky notification" />
+    </PreferenceCategory>
+</PreferenceScreen>
