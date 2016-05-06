@@ -7,9 +7,11 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,7 +43,7 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
     private SharedPreferences preferences;
     private TextView customDurationText;
     private ImageView silenceButton;
-    private ImageButton overflowMenuButton;
+    private ImageView overflowMenuButton;
 
     private boolean initialLoading = true;
 
@@ -162,7 +164,25 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
         });
         redrawCustomText();
 
-//        overflowMenuButton = (ImageButton) getActivity().findViewById(R.id.overflow_menu_silencer);
+        overflowMenuButton = (ImageView) getActivity().findViewById(R.id.overflow_menu_silencer);
+        overflowMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Overflow menu clicked");
+                PopupMenu menu = new PopupMenu(SilenceFragment.this.getActivity(), overflowMenuButton);
+                menu.getMenuInflater().inflate(R.menu.menu, menu.getMenu());
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Log.d(TAG, "menu item selected: " + item);
+
+                        return false;
+                    }
+                });
+
+                menu.show();
+            }
+        });
     }
 
     private void startTimePickerDialogue() {
