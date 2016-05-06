@@ -69,7 +69,7 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
         ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(
                 this.getActivity(),
                 R.layout.silence_mode_spinner_item,
-                new String[] {
+                new String[]{
                         getString(R.string.vibro_mode),
                         getString(R.string.silent_mode),
                 });
@@ -79,7 +79,7 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
         final ArrayAdapter<String> durationAdapter = new ArrayAdapter<>(
                 getActivity(),
                 R.layout.silence_duration_spinner_item,
-                new String[] {
+                new String[]{
                         getString(R.string.min_15),
                         getString(R.string.min_30),
                         getString(R.string.min_60),
@@ -111,7 +111,8 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         durationSpinner.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -144,7 +145,8 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         silenceButton.setOnClickListener(new View.OnClickListener() {
@@ -177,13 +179,9 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
                     public boolean onMenuItemClick(MenuItem item) {
                         Log.d(TAG, "menu item selected: " + item);
 
-//                        switch (item.getItemId()) {
-//                            case R.id.menu_settings: {
-                                startActivity(new Intent(
-                                        SilenceFragment.this.getActivity(),
-                                        SettingsActivity.class));
-//                            }
-//                        }
+                        startActivity(new Intent(
+                                SilenceFragment.this.getActivity(),
+                                SettingsActivity.class));
 
                         return true;
                     }
