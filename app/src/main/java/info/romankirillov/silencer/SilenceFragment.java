@@ -7,12 +7,14 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +32,8 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
     private static final String CUSTOM_DURATION_MINUTES_PREF_KEY =
             SilenceFragment.class.getCanonicalName() + ".custom_durtion.minutes";
 
+    private static final String TAG = "SilenceFragment";
+
     public static final String PREF_KEY = SilenceFragment.class.getCanonicalName();
 
     private Spinner modeSpinner;
@@ -37,6 +41,9 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
     private SharedPreferences preferences;
     private TextView customDurationText;
     private ImageView silenceButton;
+    private ImageButton overflowMenuButton;
+
+    private boolean initialLoading = true;
 
     private int durationHours = 0;
     private int durationMinutes = 0;
@@ -85,6 +92,7 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
         preferences = getActivity().getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
 
         modeSpinner.setSelection(preferences.getInt(MODE_PREFERENCE_KEY, 0));
+        durationSpinner.setOnItemSelectedListener(null);
         durationSpinner.setSelection(preferences.getInt(DURATION_PREFERENCE_KEY, 0));
 
         durationHours = preferences.getInt(CUSTOM_DURATION_HOURS_PREF_KEY, 0);
@@ -103,9 +111,15 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        durationSpinner.setGravity(Gravity.CENTER_HORIZONTAL);
         durationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, String.format(
+                        "durationSpinner.onItemSelected(position=%d, id=%d)",
+                        position,
+                        id));
+
                 preferences
                         .edit()
                         .putInt(DURATION_PREFERENCE_KEY, position)
@@ -115,7 +129,11 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
                     // Last element is Custom
                     preferences.edit().putBoolean(CUSTOM_DURATION_PREFERENCE_KEY, true).commit();
                     customDurationText.setVisibility(View.VISIBLE);
-                    startTimePickerDialogue();
+                    if (!initialLoading) {
+                        startTimePickerDialogue();
+                    } else {
+                        initialLoading = false;
+                    }
                 } else {
                     preferences.edit().putBoolean(CUSTOM_DURATION_PREFERENCE_KEY, false).commit();
                     customDurationText.setVisibility(View.GONE);
@@ -126,17 +144,25 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        durationSpinner.setGravity(Gravity.CENTER_HORIZONTAL);
-
         silenceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Silencer.silence(
                         SilenceFragment.this.getActivity(),
-                        3,
+                        durationHours * 60 * 60 + durationMinutes * 60 + 3,
                         AudioManager.RINGER_MODE_VIBRATE);
             }
         });
+
+        customDurationText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startTimePickerDialogue();
+            }
+        });
+        redrawCustomText();
+
+//        overflowMenuButton = (ImageButton) getActivity().findViewById(R.id.overflow_menu_silencer);
     }
 
     private void startTimePickerDialogue() {

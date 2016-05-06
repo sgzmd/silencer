@@ -82,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         viewPager.setCurrentItem(0);
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
     }
 
 
