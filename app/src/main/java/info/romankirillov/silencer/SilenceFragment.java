@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
@@ -201,6 +202,15 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
                 menu.show();
             }
         });
+
+
+        boolean isStickyEnabled = PreferenceManager
+            .getDefaultSharedPreferences(getContext())
+            .getBoolean(SettingsActivity.KEY_ENABLE_STICKY_NOTIF, false);
+
+        if (isStickyEnabled) {
+            NotificationHelper.createOrUpdateNotification(this.getContext());
+        }
     }
 
     private void startTimePickerDialogue() {
