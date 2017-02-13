@@ -35,7 +35,7 @@ public class NotificationHelper {
         AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int currentRingerMode = audio.getRingerMode();
 
-        Intent mainActivityIntent = new Intent(context, OldSilencerActivity.class);
+        Intent mainActivityIntent = new Intent(context, MainActivity.class);
         PendingIntent activityIntent = PendingIntent.getActivity(context, 0, mainActivityIntent, 0);
 
         notification.setContentIntent(activityIntent);

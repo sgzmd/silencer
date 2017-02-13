@@ -47,7 +47,7 @@ public class SilencerEspressoTest {
     }
 
     @Test
-    public void checkCustomTextUpdated() {
+    public void checkCustomTextUpdated() throws InterruptedException {
         onView(withId(R.id.durationSpinner)).perform(click());
 
         setCustomDuration(3, 3);
@@ -59,8 +59,9 @@ public class SilencerEspressoTest {
         onView(withId(R.id.customDurationText)).check(matches(not(isDisplayed())));
     }
 
-    private static void setCustomDuration(int hours, int minutes) {
+    private static void setCustomDuration(int hours, int minutes) throws InterruptedException {
         onView(withText("Custom time")).perform(click());
+        Thread.sleep(100);
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(hours, minutes));
         onView(withText("OK")).perform(click());
     }

@@ -1,6 +1,8 @@
 package info.romankirillov.silencer;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -82,8 +84,24 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         viewPager.setCurrentItem(0);
+        initialiseNotification();
     }
 
+
+    private void initialiseNotification() {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        boolean enableNotification = sharedPreferences
+                .getBoolean(SettingsActivity.KEY_ENABLE_STICKY_NOTIF, true);
+
+        if (!sharedPreferences.contains(SettingsActivity.KEY_ENABLE_STICKY_NOTIF)) {
+            sharedPreferences.edit().putBoolean(SettingsActivity.KEY_ENABLE_STICKY_NOTIF, true);
+        }
+
+        if (enableNotification) {
+            NotificationHelper.createOrUpdateNotification(this);
+        }
+    }
 
 
     class MyFragmentPagerAdapter extends FragmentPagerAdapter {

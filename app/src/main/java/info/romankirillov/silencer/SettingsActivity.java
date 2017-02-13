@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final String KEY_ENABLE_STICKY_NOTIF = "pref_enable_sticky_notification";
+    static final String KEY_ENABLE_STICKY_NOTIF = "pref_enable_sticky_notification";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
     }
 
     @Override

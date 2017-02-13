@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,13 +47,22 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
 
     private boolean initialLoading = true;
 
-    private int durationHours = 0;
-    private int durationMinutes = 0;
+    private int customDurationHours = 0;
+    private int customDurationMinutes = 0;
+    private int totalDurationMinutes = 0;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.silencer_fragment, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        initialLoading = false;
     }
 
     @Override
@@ -98,8 +106,8 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
         durationSpinner.setOnItemSelectedListener(null);
         durationSpinner.setSelection(preferences.getInt(DURATION_PREFERENCE_KEY, 0));
 
-        durationHours = preferences.getInt(CUSTOM_DURATION_HOURS_PREF_KEY, 0);
-        durationMinutes = preferences.getInt(CUSTOM_DURATION_MINUTES_PREF_KEY, 0);
+        customDurationHours = preferences.getInt(CUSTOM_DURATION_HOURS_PREF_KEY, 0);
+        customDurationMinutes = preferences.getInt(CUSTOM_DURATION_MINUTES_PREF_KEY, 0);
 
         modeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -141,6 +149,9 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
                 } else {
                     preferences.edit().putBoolean(CUSTOM_DURATION_PREFERENCE_KEY, false).commit();
                     customDurationText.setVisibility(View.GONE);
+
+                    totalDurationMinutes = getResources().getIntArray(
+                            R.array.SilenceValuesArray)[position];
                 }
             }
 
@@ -154,7 +165,7 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
             public void onClick(View v) {
                 Silencer.silence(
                         SilenceFragment.this.getActivity(),
-                        durationHours * 60 * 60 + durationMinutes * 60 + 3,
+                        totalDurationMinutes * 60,
                         AudioManager.RINGER_MODE_VIBRATE);
             }
         });
@@ -196,15 +207,15 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
         new TimePickerDialog(
                 this.getActivity(),
                 this,
-                durationHours,
-                durationMinutes,
+                customDurationHours,
+                customDurationMinutes,
                 true).show();
     }
 
     private void redrawCustomText() {
         // TODO: Localize me
         customDurationText.setText(
-                durationHours + " hours " + durationMinutes + " minutes");
+                customDurationHours + " hours " + customDurationMinutes + " minutes");
     }
 
     @Override
@@ -214,12 +225,14 @@ public class SilenceFragment extends Fragment implements TimePickerDialog.OnTime
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        durationHours = hourOfDay;
-        durationMinutes = minute;
+        customDurationHours = hourOfDay;
+        customDurationMinutes = minute;
+
+        totalDurationMinutes = customDurationHours * 60 + customDurationMinutes;
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(CUSTOM_DURATION_HOURS_PREF_KEY, durationHours);
-        editor.putInt(CUSTOM_DURATION_MINUTES_PREF_KEY, durationMinutes);
+        editor.putInt(CUSTOM_DURATION_HOURS_PREF_KEY, customDurationHours);
+        editor.putInt(CUSTOM_DURATION_MINUTES_PREF_KEY, customDurationMinutes);
         editor.commit();
 
         redrawCustomText();
